@@ -1,0 +1,4 @@
+* day01
+** Increase value detection counter
+* day02
+** Basic automaton
