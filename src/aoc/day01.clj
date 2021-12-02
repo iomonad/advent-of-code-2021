@@ -3,7 +3,7 @@
             [com.rpl.specter :as sp]
             [aoc.utils :refer :all]))
 
-(defn result1 []
+(defn result1-naive []
   (let [input (read-input "day1.txt"
                           :alter-fn read-string)
         state (atom 0)]
@@ -14,5 +14,17 @@
           (swap! state inc))))
     (dec (- (count input) @state))))
 
-(comment
-  (time (result1)))
+
+(defn result1-optimized []
+  (let [input (read-input "day1.txt"
+                          :alter-fn read-string)]
+    (->> (partition 2 1 input)
+         (map (fn [[a b]] (> a b)))
+         (filter true?)
+         count)))
+
+(defn result-1-bis []
+  (let [init (->> (read-input "day1.txt")
+                  (partition 3 1)
+                  (map #(apply + %)))]
+    init))
