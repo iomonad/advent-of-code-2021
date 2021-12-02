@@ -1,4 +1,4 @@
 **** day01
-***** Increase value detection counter
+  - Increase value detection counter
 **** day02
-***** Basic automaton
+  - Basic automaton
