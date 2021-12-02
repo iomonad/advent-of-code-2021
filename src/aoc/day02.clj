@@ -18,7 +18,23 @@
        vals
        (apply *)))
 
+(defn day02-bis []
+  (letfn [(phys [{:keys [p d aim] :as state} ins x]
+            (-> state
+                (update :p + x)
+                (update :d + (* aim x))))]
+    (->> (read-input "day2.txt")
+         (map parse-entry)
+         (reduce (fn [state [ins x]]
+                   (cond-> state
+                     (= :up ins) (update :aim - x)
+                     (= :down ins) (update :aim + x)
+                     (= :forward ins) (phys ins x)))
+                 {:p 0 :d 0 :aim 0})
+         ((juxt :p :d))
+         (apply *))))
+
 
 (comment
-  (ttime (day02))
-  )
+  (time (day02))
+  (time  (day02-bis)))
