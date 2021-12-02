@@ -22,9 +22,3 @@
          (map (fn [[a b]] (> a b)))
          (filter true?)
          count)))
-
-(defn result-1-bis []
-  (let [init (->> (read-input "day1.txt")
-                  (partition 3 1)
-                  (map #(apply + %)))]
-    init))
