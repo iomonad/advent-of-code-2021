@@ -1,6 +1,8 @@
 (ns aoc.day04
   (:require [aoc.utils :refer :all]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [clojure.set :as set]
+            [clojure.java.io :as io]))
 
 (defn day04 []
   (let [[a & rest] (read-input "day4.txt")
@@ -13,17 +15,21 @@
                                                 (map read-string))) b)))
                     (map-indexed (fn [i c] {i c}))
                     (apply merge))
-        first (atom nil)]
-    (->> (reduce (fn [acc i]
-                   (->> (for [[k v] boards]
-                          (do (if (and (nil? @first)
-                                       (= 25 (get acc k)))
-                                (reset! first k))
-                              (cond-> {k 0}
-                                (.contains v i) (assoc k 1))))
-                        (apply merge)
-                        (merge-with + acc)))
-                 {} selection))
-    (if-let [winner @first]
-      (* (apply + (get boards winner)) winner)
-      (clojure.pprint/pprint (get boards winner)))))
+        winner (atom nil)]
+    (reduce (fn [acc i]
+              (->> (for [[k v] boards]
+                     (let [res (cond-> {}
+                                 (.contains v i) (assoc k #{i}))]
+                       (if (and (nil? @winner)
+                                (= 25 (count (get acc k))))
+                         (reset! winner [(get acc k) i]))
+                       res))
+                   (apply merge)
+                   (merge-with set/union acc)))
+            (->> (map (fn [e] {e (sorted-set)})
+                      (keys boards))
+                 (apply merge))
+            selection)
+    (let [[v a] @winner
+          u (set/difference (set selection) v)]
+      (* (apply + u) a))))
