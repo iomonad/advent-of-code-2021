@@ -1,7 +1,7 @@
 (ns aoc.day06
-  (:require [aoc.utils :refer :all]
-            [clojure.java.io :as io]
-            [clojure.string :as str]))
+  (:require [clojure.java.io :as io]
+            [clojure.string :as str]
+            [clojure.core.reducers :as r]))
 
 (defn mk-cycle [state]
   (let [new (count (filter zero? state))]
@@ -14,4 +14,11 @@
                               #",")
                    (map read-string))]
     (count (reduce (fn [acc i] (mk-cycle acc))
-                   input (range 80)))))
+                   input (range 256)))))
+
+(defn day06-bis []
+  (let [input (->> (str/split (slurp (io/resource "day6.txt"))
+                              #",")
+                   (map read-string))]
+    (count (r/reduce (fn [acc i] (mk-cycle acc))
+                     input (range 256)))))
