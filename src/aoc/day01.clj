@@ -15,7 +15,7 @@
     (dec (- (count input) @state))))
 
 
-(defn result1-optimized []
+(defn day01 []
   (let [input (read-input "day1.txt"
                           :alter-fn read-string)]
     (->> (partition 2 1 input)
