@@ -6,7 +6,8 @@
             [aoc.day04 :refer [day04]]
             [aoc.day05 :refer [day05]]
             [aoc.day06 :refer [day06]]
-            [aoc.day07 :refer [day07 day07-bis]]))
+            [aoc.day07 :refer [day07 day07-bis]]
+            [aoc.day08 :refer [day08]]))
 
 (deftest day1
   (testing "first star"
@@ -36,3 +37,7 @@
   (testing "first star"
     (is (= 336120 (day07)))
     (is (= 96864235 (day07-bis)))))
+
+(deftest day8
+  (testing "first star"
+    (is (= 310 (day08)))))
